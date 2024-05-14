@@ -19,6 +19,20 @@
 			{
 				"navigationBarTitleText" : "修改文章"
 			}
+		},
+		{
+			"path" : "pages/detail/detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "详情"
+			}
+		},
+		{
+			"path" : "pages/upload/upload",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
