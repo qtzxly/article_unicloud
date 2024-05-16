@@ -11,13 +11,17 @@
 					</view>
 				</view>
 				<view class="pic">
-					<image mode="aspectFill" src="../../static/images/nopic.jpg"></image>
+					<image mode="aspectFill" :src="item.picurls?item.picurls[0]:'../../static/images/nopic.jpg'"></image>
 				</view>
 			</view>
 		</view>
 
-		<view class="goAdd" @click="goAdd">+</view>
-		<view class="goUpload" @click="goUpload">Upload</view>
+		<view class="goAdd" @click="goAdd">
+			<uni-icons type="plusempty" size="30" color="#fff"></uni-icons>
+		</view>
+		<view class="goUpload" @click="goUpload">
+			<uni-icons type="upload-filled" size="30" color="#fff"></uni-icons>
+		</view>
 	</view>
 </template>
 
@@ -38,11 +42,17 @@
 			this.getData()
 		},
 		onPullDownRefresh(){
+			console.log(123123131);
 			this.listArr = []
-			tis.getData()
+			this.getData()
 			
 		},
 		methods: {
+			goUpload(){
+				uni.navigateTo({
+					url:"/pages/upload/upload"
+				})
+			},
 			goDetail(e){
 				console.log(e);
 				uni.navigateTo({

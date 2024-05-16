@@ -10,9 +10,13 @@
 			<view class="content">
 				{{detail.content}}
 			</view>
+			
+			<view class="picurls" v-if="detail.picurls && detail.picurls.length">
+				<image v-for="item in detail.picurls" :src="item" mode="widthFix"></image>
+			</view>
 
 			<view class="btnGroup">
-				<button size="mini" @click="goEdit">修改</button>
+				<button size="mini" @click="goEdit">编辑</button>
 				<button size="mini" type="warn" @click="onRemove">删除</button>
 			</view>
 		</view>

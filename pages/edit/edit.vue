@@ -10,6 +10,11 @@
 			<view class="item">
 				<textarea v-model="formValue.content" name="content" placeholder="请输入详细内容"></textarea>
 			</view>
+			
+			<view class="item">
+				<uni-file-picker v-model="imageValue" fileMediatype="image" mode="grid" @success="uploadSuccess" />
+			</view>
+			
 			<view class="item">
 				<view class="button">
 					<button form-type="reset">重置</button>
@@ -24,6 +29,8 @@
 	export default {
 		data() {
 			return {
+				imageValue: [],
+				picurls: [],
 				
 				formValue: {
 					title: "",
@@ -38,6 +45,10 @@
 			this.getDetail(e.id)
 		},
 		methods: {
+			uploadSuccess(e) {
+				console.log('e', e);
+				this.picurls = e.tempFilePaths
+			},
 			getDetail(id) {
 				uniCloud.callFunction({
 					name: "art_get_row",
@@ -49,6 +60,11 @@
 					this.loadState = true
 					this.formValue = res.result.data[0]
 					
+					if (!this.formValue.picurls) return
+					let urls = this.formValue.picurls.map(item=> {
+						return {url: item}
+					})
+					this.imageValue = urls
 				}).catch((err) => {
 					uni.showToast({
 						icon: "error",
@@ -62,18 +78,23 @@
 				})
 			},
 			isDisable(obj) {
-				for (let key in obj) {
-					console.log(obj[key]);
-					if (!obj[key]) {
-						return true
-					}
-				}
+				// some 有真则真,   every 有假则假
+				let bool =  Object.keys.some((key,value) => {
+					return obj[key] == ''
+				})
+				return bool
 			},
 			onSubmit() {
+				// console.log('this.picurls',this.picurls);
+				// console.log('this.imageValue',this.imageValue);
+				let _picurls = this.imageValue.map(it=>{
+					return it.url
+				})
 				uniCloud.callFunction({
 					name: "art_update_row",
 					data: {
-						detail:this.formValue
+						detail:this.formValue,
+						picurls:_picurls
 					}
 				}).then(res => {
 					console.log("res",res);

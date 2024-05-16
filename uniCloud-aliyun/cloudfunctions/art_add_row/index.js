@@ -3,7 +3,7 @@ const db = uniCloud.database()
 exports.main = async (event, context) => {
 	//event为客户端上传的参数
 	let {
-		detail
+		detail, picurls
 	} = event
 
 	// return detail
@@ -11,6 +11,7 @@ exports.main = async (event, context) => {
 
 	const res =  await db.collection("article").add({
 		posttime: Date.now(),
+		picurls,
 		...detail
 	})
 

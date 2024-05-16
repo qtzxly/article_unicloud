@@ -10,6 +10,11 @@
 			<view class="item">
 				<textarea v-model="formValue.content" name="content" placeholder="请输入详细内容"></textarea>
 			</view>
+
+			<view class="item">
+				<uni-file-picker v-model="imageValue" fileMediatype="image" mode="grid" @success="uploadSuccess" />
+			</view>
+
 			<view class="item">
 				<view class="button">
 					<button form-type="reset">重置</button>
@@ -24,6 +29,8 @@
 	export default {
 		data() {
 			return {
+				imageValue: [],
+				picurls: [],
 				formValue: {
 					title: "",
 					author: "",
@@ -32,13 +39,23 @@
 			};
 		},
 		methods: {
+			uploadSuccess(e) {
+				console.log('e', e);
+				this.picurls = e.tempFilePaths
+			},
 			isDisable(obj) {
-				for (let key in obj) {
-					console.log(obj[key]);
-					if (!obj[key]) {
-						return true
-					}
-				}
+				// for (let key in obj) {
+				// 	// console.log(obj[key]);
+				// 	if (!obj[key]) {
+				// 		return true
+				// 	}
+				// }
+				
+				// some 有真则真,   every 有假则假
+				let bool =  Object.keys.some((key,value) => {
+					return obj[key] == ''
+				})
+				return bool
 			},
 			onSubmit(e) {
 				// console.log('e', e);
@@ -47,7 +64,8 @@
 				uniCloud.callFunction({
 					name: "art_add_row",
 					data: {
-						detail
+						detail,
+						picurls:this.picurls
 					}
 				}).then(res => {
 					// console.log("res",res);

@@ -68,5 +68,12 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "title" : "浩阳文章管理系统",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/hyArticle/"
+        }
+    }
 }
